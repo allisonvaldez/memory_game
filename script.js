@@ -103,8 +103,44 @@ function handleCardClick(event) {
     cardTwo = currentCard === cardOne ? null : currentCard;
   }
 
+  /*
+  if cardOne and cardTwo are selected set noClicking to true.
+  initialize a variable gif1 and gif2 with the className of the cards
+  */
+  if (cardOne && cardTwo) {
+    noClicks = true;
+    let gif1 = cardOne.className;
+    let gif2 = cardTwo.className;
 
+    /*
+    if gif1 and gif2 are strictly equal then increase the cardFlipped counter by 2.
+    Remove the eventListener from both cards
+    Set the game back to the original starting point for cards and noClicks.
+    Else if they are not equal reset the background color, remove the class of flipped after 1 second.
+    */
+    if (gif1 === gif2) {
+      flippedCards += 2;
+      cardOne.removeEventListener("click", handleCardClick);
+      cardTwo.removeEventListener("click", handleCardClick);
+      cardOne = null;
+      cardTwo = null;
+      noClicks = false;
+    }
+    else {
+      setTimeout(function () {
+        cardOne.style.backgroundColor = "";
+        cardTwo.style.backgroundColor = "";
+        cardOne.classList.remove("flipped");
+        cardTwo.classList.remove("flipped");
+        cardOne = null;
+        cardTwo = null;
+        noClicks = false;
+      }, 1000)
+    }
+  }
 
+  // set ending requirement of when the nummber of flipped cards equal the number of colors
+  if (flippedCards === COLORS.length) alert("GAME OVER");
 }
 
 // when the DOM loads
